@@ -1,0 +1,87 @@
+  Simulating an Operating System using Multiple Processes and IPC
+
+  Author: Jimmy Nguyen
+  Email:  Jimmy@JimmyWorks.net
+
+  Description:
+  Develop a multi-process program which emulates a
+  basic operating system where the processor is the
+  parent process and main memory is a child process.
+  The processor process will communicate with the 
+  main memory process through signals and pipes for
+  read/write, I/O operations.  The processor contains
+  an array to emulate registers (PC, SP, IR, AC, X, Y)
+  while main memory contains an array of 2000 elements
+  to emulate memory space.  The processor process
+  will simulate the execution cycle (fetch, decode, and
+  execute), interrupt handling, mode switching (user and
+  kernel mode), user and system stack, timeout timer, and
+  implement over 30 different operations for the
+  instruction set.
+
+# Files ###############################################
+
+ > README 		< this readme file >
+
+ > bin/			< executable directory >
+  > program.exe 	< available after "make" >
+
+ > include/		< include directory >
+  > program1.h		< program header file >
+
+ > input/		< user program input files >
+  > sample1.txt		< sample 1 input file >
+  > sample2.txt		< sample 2 input file >		
+  > sample3.txt		< sample 3 input file >
+  > sample4.txt		< sample 4 input file >
+  > sample5.txt		< custom sample 5 input file >
+
+ > src/
+  > main.cc
+  > Makefile
+  > memory.cc
+  > processor.cc
+
+# Program Execution Instructions ######################
+
+Quick Guide:
+  1. Navigate to src directory
+  2. Run "make test -i".  This will "make" the
+     executable and put it in the bin directory.
+     The Makefile will then execute all tests
+     sequentially with formatted output to the console.
+     Make sure to include the -i flag since sample4.txt
+     is guaranteed to fail.
+
+Make commands:
+  make		make executable
+  make clean	clean dependency files and executable
+  make test -i  run complete test ignoring errors
+
+Custom run:
+  Upon making the executable the following can be run
+  (assuming you are still in src directory):
+  ../bin/program.exe <program file> <interrupt value> [--debug]
+
+ - Executable is located in bin.
+ - Program file must be an absolute path, but my files 
+   are in input directory.
+ - Interrupt value must be a natural number.
+ - The "--debug" flag can be included at the end for debugging components.
+
+# Notes About Custom Sample 5 User Program ############
+
+  For the custom user program I made for sample5.txt, I
+  took a GitHub png file I found online and converted
+  it to an ascii image complete with newline characters.
+  Using this ascii image, I added it to the user
+  program from address 400-838 (image is 438 characters
+  long).  For the interrupt handler, I simple made it 
+  return from the system call.  
+  
+  For the program, I used the X register to keep track
+  of iteration count, from 0-438.  Each iteration
+  would load the character at address 400 + X and print
+  it to the screen as a character.  If 438 - X = 0,
+  then the last character was printed, in which the 
+  program branches to the END command on address 15.
